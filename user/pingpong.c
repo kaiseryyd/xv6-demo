@@ -24,7 +24,7 @@
 int main(int arg, char *argv[]) {
     int fd[2];
     char buf[1];
-    pid_t pid = fork();
+    int pid = fork();
     if (pipe(fd) == -1) {
         fprintf(2, "error in pipe \n");
         exit(1);
