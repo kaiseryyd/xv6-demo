@@ -22,45 +22,44 @@
 #include "kernel/stat.h"
 #include "user.h"
 int main(int arg, char *argv[]) {
-    int fd[2];
+    int p[2];
     char buf[2];
-    int pid = fork();
-    if (pipe(fd) == -1) {
-        fprintf(2, "error in pipe \n");
-        exit(1);
-    }
-    if (pid < 0) {
-        fprintf(2, "error in fork \n");
-        exit(1);
-    } else if (pid == 0) {
-        //child
-        pid = getpid();
-        if (read(fd[0], buf, 1) != 1) {
-            fprintf(2, "error in read \n");
+    char *parmsg = "a";
+    char *chimsg = "b";
+    pipe(p);
+
+    if (fork() == 0){
+        if (read(p[0], buf, 1) != 1){
+            fprintf(2, "Can't read from parent!\n");
             exit(1);
         }
-        printf("%d: received ping \n", pid);
-        close(fd[0]);
-        if (write(fd[1], buf, 1) != 1) {
-            fprintf(2, "error in write \n");
-            exit(1);
+        printf("child receive: %c\n", buf[0]);
+        close(p[0]);
+
+        printf("%d: received ping\n", getpid());
+        if (write(p[1], chimsg, 1) != 1){
+            fprintf(2, "Can't write to parent!");
         }
-        close(fd[1]);
+        close(p[1]);
+
         exit(0);
-    } else {
-        //parent
-        char info = 'a';
-        if (write(fd[1], &info, 1) != 1) {
-            fprintf(2, "error in write \n");
+    }else{
+        if (write(p[1], parmsg, 1) != 1){
+            fprintf(2, "Can't write to child!\n");
             exit(1);
         }
-        close(fd[1]);
-        if (read(fd[0], buf, 1) != 1) {
-            fprintf(2, "error in read \n");
+        close(p[1]);
+
+        wait(0);
+
+        if (read(p[0], buf, 1) != 1){
+            fprintf(2, "Can't read from child!");
             exit(1);
         }
-        printf("%d: received pong \n", pid);
-        close(fd[0]);
+        printf("parent receive: %c\n", buf[0]);
+        close(p[0]);
+        printf("%d: received pong\n", getpid());
+
         exit(0);
     }
 }
