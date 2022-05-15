@@ -39,7 +39,7 @@ int main(int arg, char *argv[]) {
             fprintf(2, "error in read \n");
             exit(1);
         }
-        printf("%d: received ping \n");
+        printf("%d: received ping \n", pid);
         close(fd[0]);
         if (write(fd[1], buf, 1) != 1) {
             fprintf(2, "error in write \n");
@@ -59,7 +59,7 @@ int main(int arg, char *argv[]) {
             fprintf(2, "error in read \n");
             exit(1);
         }
-        printf("%d: received p0ng \n", pid);
+        printf("%d: received pong \n", pid);
         close(fd[0]);
         exit(0);
     }
