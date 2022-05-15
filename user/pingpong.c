@@ -49,7 +49,7 @@ int main(int arg, char *argv[]) {
         exit(0);
     } else {
         //parent
-        char info[1] = "a";
+        char info[1] = 'a';
         if (write(fd[1], info, 1) != 1) {
             fprintf(2, "error in write \n");
             exit(1);
