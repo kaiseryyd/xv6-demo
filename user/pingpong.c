@@ -55,6 +55,7 @@ int main(int arg, char *argv[]) {
             exit(1);
         }
         close(fd[1]);
+        wait(0);
         if (read(fd[0], buf, 1) != 1) {
             fprintf(2, "error in read \n");
             exit(1);
