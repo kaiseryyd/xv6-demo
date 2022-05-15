@@ -1,7 +1,8 @@
 //
 // Created by 杨翊铎 on 2022/5/15.
 //
-
+#include "kernel/types.h"
+#include "kernel/stat.h"
 #include "user.h"
 
 int main(int argc, char *argv[]) {
