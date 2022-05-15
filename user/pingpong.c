@@ -23,7 +23,7 @@
 #include "user.h"
 int main(int arg, char *argv[]) {
     int fd[2];
-    char buf[1];
+    char buf[2];
     int pid = fork();
     if (pipe(fd) == -1) {
         fprintf(2, "error in pipe \n");
